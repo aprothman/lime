@@ -59,6 +59,7 @@ class NativeApplication
 
 	public var handle:Dynamic;
 
+	private var initialized:Bool;
 	private var pauseTimer:Int;
 	private var parent:Application;
 	private var toggleFullscreen:Bool;
@@ -72,6 +73,7 @@ class NativeApplication
 
 	public function new(parent:Application):Void
 	{
+		initialized = false;
 		this.parent = parent;
 		pauseTimer = -1;
 		toggleFullscreen = true;
@@ -102,29 +104,50 @@ class NativeApplication
 		#end
 	}
 
+	public function init():Void
+	{
+		if (!initialized) {
+			#if (!macro && lime_cffi)
+			NativeCFFI.lime_application_event_manager_register(handleApplicationEvent, applicationEventInfo);
+			NativeCFFI.lime_clipboard_event_manager_register(handleClipboardEvent, clipboardEventInfo);
+			NativeCFFI.lime_drop_event_manager_register(handleDropEvent, dropEventInfo);
+			NativeCFFI.lime_gamepad_event_manager_register(handleGamepadEvent, gamepadEventInfo);
+			NativeCFFI.lime_joystick_event_manager_register(handleJoystickEvent, joystickEventInfo);
+			NativeCFFI.lime_key_event_manager_register(handleKeyEvent, keyEventInfo);
+			NativeCFFI.lime_mouse_event_manager_register(handleMouseEvent, mouseEventInfo);
+			NativeCFFI.lime_render_event_manager_register(handleRenderEvent, renderEventInfo);
+			NativeCFFI.lime_text_event_manager_register(handleTextEvent, textEventInfo);
+			NativeCFFI.lime_touch_event_manager_register(handleTouchEvent, touchEventInfo);
+			NativeCFFI.lime_window_event_manager_register(handleWindowEvent, windowEventInfo);
+			#if (ios || android || tvos)
+			NativeCFFI.lime_sensor_event_manager_register(handleSensorEvent, sensorEventInfo);
+			#end
+
+			NativeCFFI.lime_application_init(handle);
+			#end
+
+			initialized = true;
+		}
+	}
+
+	public function batchUpdate(numEvents:Int):Int
+	{
+		#if (!macro && lime_cffi)
+
+		return NativeCFFI.lime_application_batch_update(handle, numEvents);
+
+		#else
+
+		return false;
+
+		#end
+	}
+
 	public function exec():Int
 	{
-		#if !macro
-		#if lime_cffi
-		NativeCFFI.lime_application_event_manager_register(handleApplicationEvent, applicationEventInfo);
-		NativeCFFI.lime_clipboard_event_manager_register(handleClipboardEvent, clipboardEventInfo);
-		NativeCFFI.lime_drop_event_manager_register(handleDropEvent, dropEventInfo);
-		NativeCFFI.lime_gamepad_event_manager_register(handleGamepadEvent, gamepadEventInfo);
-		NativeCFFI.lime_joystick_event_manager_register(handleJoystickEvent, joystickEventInfo);
-		NativeCFFI.lime_key_event_manager_register(handleKeyEvent, keyEventInfo);
-		NativeCFFI.lime_mouse_event_manager_register(handleMouseEvent, mouseEventInfo);
-		NativeCFFI.lime_render_event_manager_register(handleRenderEvent, renderEventInfo);
-		NativeCFFI.lime_text_event_manager_register(handleTextEvent, textEventInfo);
-		NativeCFFI.lime_touch_event_manager_register(handleTouchEvent, touchEventInfo);
-		NativeCFFI.lime_window_event_manager_register(handleWindowEvent, windowEventInfo);
-		#if (ios || android || tvos)
-		NativeCFFI.lime_sensor_event_manager_register(handleSensorEvent, sensorEventInfo);
-		#end
-		#end
+		init();
 
-		#if (nodejs && lime_cffi)
-		NativeCFFI.lime_application_init(handle);
-
+		#if (!macro && lime_cffi)
 		var eventLoop = function()
 		{
 			var active = NativeCFFI.lime_application_update(handle);

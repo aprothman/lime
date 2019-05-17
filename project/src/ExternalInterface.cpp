@@ -287,6 +287,22 @@ namespace lime {
 	}
 
 
+	int lime_application_batch_update (value application, int numEvents) {
+
+		Application* app = (Application*)val_data (application);
+		return app->BatchUpdate (numEvents);
+
+	}
+
+
+	HL_PRIM int hl_lime_application_batch_update (HL_CFFIPointer* application, int numEvents) {
+
+		Application* app = (Application*)application->ptr;
+		return app->BatchUpdate (numEvents);
+
+	}
+
+
 	value lime_audio_load_bytes (value data, value buffer) {
 
 		Resource resource;
@@ -3785,6 +3801,7 @@ namespace lime {
 	DEFINE_PRIME1 (lime_application_quit);
 	DEFINE_PRIME2v (lime_application_set_frame_rate);
 	DEFINE_PRIME1 (lime_application_update);
+	DEFINE_PRIME2 (lime_application_batch_update);
 	DEFINE_PRIME2 (lime_audio_load);
 	DEFINE_PRIME2 (lime_audio_load_bytes);
 	DEFINE_PRIME2 (lime_audio_load_file);
@@ -3992,6 +4009,7 @@ namespace lime {
 	DEFINE_HL_PRIM (_I32, lime_file_watcher_add_directory, _TCFFIPOINTER _STRING _BOOL);
 	DEFINE_HL_PRIM (_VOID, lime_file_watcher_remove_directory, _TCFFIPOINTER _I32);
 	DEFINE_HL_PRIM (_VOID, lime_file_watcher_update, _TCFFIPOINTER);
+	DEFINE_HL_PRIM (_BOOL, lime_application_batch_update, _TCFFIPOINTER _I32);
 	DEFINE_HL_PRIM (_I32, lime_font_get_ascender, _TCFFIPOINTER);
 	DEFINE_HL_PRIM (_I32, lime_font_get_descender, _TCFFIPOINTER);
 	DEFINE_HL_PRIM (_BYTES, lime_font_get_family_name, _TCFFIPOINTER);

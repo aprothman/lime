@@ -138,6 +138,28 @@ class Application extends Module
 	}
 
 	/**
+		Creates a new Window and adds it to the Application
+		@param	foreignHandle	A handle to an OS window to add
+	**/
+	public function createWindowFrom(foreignHandle:Int):Window
+	{
+		var window = __createWindowFrom(foreignHandle);
+		__addWindow(window);
+		return window;
+	}
+
+/**
+		Prepare to execute the application piecemeal. This method
+		only needs to be called if batchUpdate() is going to
+		be used for the event loop
+	**/
+	public function init():Void
+	{
+		Application.current = this;
+		__backend.init ();
+	}
+
+	/**
 		Execute the Application. On native platforms, this method
 		blocks until the application is finished running. On other
 		platforms, it will return immediately
@@ -148,6 +170,16 @@ class Application extends Module
 		Application.current = this;
 
 		return __backend.exec();
+	}
+
+	/**
+		Pump and handle a set of pending events, then return
+		@param  numEvents The maximum number of events to process
+		@return			  The number of events handled, -1 if the event loop should exit
+	**/
+	public function batchUpdate(numEvents:Int):Int
+	{
+		return __backend.batchUpdate(numEvents);
 	}
 
 	/**
@@ -505,7 +537,16 @@ class Application extends Module
 
 	@:noCompletion private function __createWindow(attributes:WindowAttributes):Window
 	{
-		var window = new Window(this, attributes);
+		var window = new Window(this);
+		window.create(attributes);
+		if (window.id == -1) return null;
+		return window;
+	}
+
+	@:noCompletion private function __createWindowFrom(foreignHandle:Int):Window
+	{
+		var window = new Window(this);
+		window.createFrom(foreignHandle);
 		if (window.id == -1) return null;
 		return window;
 	}
