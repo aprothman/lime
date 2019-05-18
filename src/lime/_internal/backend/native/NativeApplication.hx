@@ -174,7 +174,6 @@ class NativeApplication
 
 		return result;
 		#end
-		#end
 
 		return 0;
 	}

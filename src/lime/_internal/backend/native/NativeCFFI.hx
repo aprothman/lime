@@ -69,7 +69,7 @@ class NativeCFFI
 
 	@:cffi private static function lime_application_update(handle:Dynamic):Bool;
 
-	@:cffi private static function lime_application_batch_update(handle:Dynamic, numEvents:Int):Bool;
+	@:cffi private static function lime_application_batch_update(handle:Dynamic, numEvents:Int):Int;
 
 	@:cffi private static function lime_audio_load(data:Dynamic, buffer:Dynamic):Dynamic;
 
@@ -364,8 +364,8 @@ class NativeCFFI
 	private static var lime_application_set_frame_rate = new cpp.Callable<cpp.Object->Float->cpp.Void>(cpp.Prime
 		._loadPrime("lime", "lime_application_set_frame_rate", "odv", false));
 	private static var lime_application_update = new cpp.Callable<cpp.Object->Bool>(cpp.Prime._loadPrime("lime", "lime_application_update", "ob", false));
-	private static var lime_application_batch_update = new cpp.Callable<cpp.Object->Int->Bool>(cpp.Prime
-		._loadPrime("lime", "lime_application_batch_update", "oib", false));
+	private static var lime_application_batch_update = new cpp.Callable<cpp.Object->Int->Int>(cpp.Prime
+		._loadPrime("lime", "lime_application_batch_update", "oii", false));
 	private static var lime_audio_load = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object>(cpp.Prime._loadPrime("lime", "lime_audio_load", "ooo", false));
 	private static var lime_audio_load_bytes = new cpp.Callable<cpp.Object->cpp.Object->cpp.Object>(cpp.Prime
 		._loadPrime("lime", "lime_audio_load_bytes", "ooo", false));
@@ -788,7 +788,7 @@ class NativeCFFI
 		return false;
 	}
 
-	@:hlNative("lime", "lime_application_batch_update") private static function lime_application_batch_update (handle:CFFIPointer, value:Int):Bool
+	@:hlNative("lime", "lime_application_batch_update") private static function lime_application_batch_update (handle:CFFIPointer, value:Int):Int
 	{
 		return false;
 	}
