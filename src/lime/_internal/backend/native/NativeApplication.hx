@@ -123,7 +123,9 @@ class NativeApplication
 			NativeCFFI.lime_sensor_event_manager_register(handleSensorEvent, sensorEventInfo);
 			#end
 
+			#if (nodejs && lime_cffi)
 			NativeCFFI.lime_application_init(handle);
+			#end
 			#end
 
 			initialized = true;
@@ -147,7 +149,8 @@ class NativeApplication
 	{
 		init();
 
-		#if (!macro && lime_cffi)
+		#if !macro
+		#if (nodejs && lime_cffi)
 		var eventLoop = function()
 		{
 			var active = NativeCFFI.lime_application_update(handle);
@@ -165,6 +168,7 @@ class NativeApplication
 
 		untyped setImmediate(eventLoop);
 		return 0;
+
 		#elseif lime_cffi
 		var result = NativeCFFI.lime_application_exec(handle);
 
@@ -173,6 +177,7 @@ class NativeApplication
 		#end
 
 		return result;
+		#end
 		#end
 
 		return 0;
