@@ -69,7 +69,7 @@ namespace lime {
 
 
 	Window* CreateWindow (Application* application, int width, int height, int flags, const char* title);
-	Window* CreateWindowFrom(Application* application, const void* foreignHandle);
+	Window* CreateWindowFrom(Application* application, const void* foreignHandle, int renderFlags);
 
 
 	enum WindowFlags {

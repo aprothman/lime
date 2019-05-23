@@ -369,11 +369,11 @@ class Window
 		__created = true;
 	}
 
-	public function createFrom(foreignHandle:Int):Void
+	public function createFrom(foreignHandle:Int, attributes:RenderContextAttributes):Void
 	{
 		if (__created) return;
 
-		__attributes = {};
+		__attributes = attributes != null ? { context : attributes } : {};
 
 		__backend = new WindowBackend(this);
 		#if (!air && !flash && !(js && html5))

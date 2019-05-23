@@ -130,19 +130,29 @@ class NativeWindow
 			return;
 		}
 
-		#if (!macro && lime_cffi)
-		handle = NativeCFFI.lime_window_create_from(parent.application.__backend.handle, foreignHandle);
-		#end
+		var attributes = parent.__attributes;
+		var contextAttributes = Reflect.hasField(attributes, "context") ? attributes.context : {};
+		if (!Reflect.hasField(contextAttributes, "hardware")) contextAttributes.hardware = true;
+		if (!Reflect.hasField(contextAttributes, "vsync")) contextAttributes.vsync = false;
 
-		var contextAttributes:RenderContextAttributes = {};
+		#if (cairo || (!lime_opengl && !lime_opengles))
+		contextAttributes.type = CAIRO;
+		#end
+		if (Reflect.hasField(contextAttributes, "type") && contextAttributes.type == CAIRO) contextAttributes.hardware = false;
+
+		var renderFlags = 0;
+		if (contextAttributes.hardware) renderFlags |= cast WindowFlags.WINDOW_FLAG_HARDWARE;
+		if (contextAttributes.vsync) renderFlags |= cast WindowFlags.WINDOW_FLAG_VSYNC;
+
+		#if (!macro && lime_cffi)
+		handle = NativeCFFI.lime_window_create_from(parent.application.__backend.handle, foreignHandle, renderFlags);
+		#end
 
 		contextAttributes.antialiasing = 0;
 		contextAttributes.background = 0;
 		contextAttributes.colorDepth = 24;
 		contextAttributes.depth = true;
-		contextAttributes.hardware = true;
 		contextAttributes.stencil = true;
-		contextAttributes.vsync = false;
 
 		finishInit(contextAttributes);
 

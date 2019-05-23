@@ -18,7 +18,7 @@ namespace lime {
 			SDLForeignWindow (Application* application);
 			~SDLForeignWindow ();
 
-			virtual void CreateFrom(const void* foreignHandle);
+			virtual void CreateFrom(const void* foreignHandle, int renderFlags);
 			virtual void Create(int width, int height, int flags, const char* title) { }
 
 			virtual void Focus () { }

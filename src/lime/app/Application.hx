@@ -1,6 +1,7 @@
 package lime.app;
 
 import lime.graphics.RenderContext;
+import lime.graphics.RenderContextAttributes;
 import lime.system.System;
 import lime.ui.Gamepad;
 import lime.ui.GamepadAxis;
@@ -141,9 +142,9 @@ class Application extends Module
 		Creates a new Window and adds it to the Application
 		@param	foreignHandle	A handle to an OS window to add
 	**/
-	public function createWindowFrom(foreignHandle:Int):Window
+	public function createWindowFrom(foreignHandle:Int, attributes:RenderContextAttributes):Window
 	{
-		var window = __createWindowFrom(foreignHandle);
+		var window = __createWindowFrom(foreignHandle, attributes);
 		__addWindow(window);
 		return window;
 	}
@@ -543,10 +544,10 @@ class Application extends Module
 		return window;
 	}
 
-	@:noCompletion private function __createWindowFrom(foreignHandle:Int):Window
+	@:noCompletion private function __createWindowFrom(foreignHandle:Int, attributes:RenderContextAttributes):Window
 	{
 		var window = new Window(this);
-		window.createFrom(foreignHandle);
+		window.createFrom(foreignHandle, attributes);
 		if (window.id == -1) return null;
 		return window;
 	}

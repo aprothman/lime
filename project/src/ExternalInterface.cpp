@@ -3211,17 +3211,17 @@ namespace lime {
 	}
 
 
-	value lime_window_create_from (value application, int foreignHandle) {
+	value lime_window_create_from (value application, int foreignHandle, int renderFlags) {
 
-		Window* window = CreateWindowFrom ((Application*)val_data (application), reinterpret_cast<void*> (foreignHandle));
+		Window* window = CreateWindowFrom ((Application*)val_data (application), reinterpret_cast<void*> (foreignHandle), renderFlags);
 		return CFFIPointer (window, gc_window);
 
 	}
 
 
-	HL_PRIM HL_CFFIPointer* hl_lime_window_create_from (HL_CFFIPointer* application, int foreignHandle) {
+	HL_PRIM HL_CFFIPointer* hl_lime_window_create_from (HL_CFFIPointer* application, int foreignHandle, int renderFlags) {
 
-		Window* window = CreateWindowFrom ((Application*)application->ptr, reinterpret_cast<void*> (foreignHandle));
+		Window* window = CreateWindowFrom ((Application*)application->ptr, reinterpret_cast<void*> (foreignHandle), renderFlags);
 		return HLCFFIPointer (window, (hl_finalizer)hl_gc_window);
 
 	}
@@ -3931,7 +3931,7 @@ namespace lime {
 	DEFINE_PRIME1v (lime_window_context_make_current);
 	DEFINE_PRIME1v (lime_window_context_unlock);
 	DEFINE_PRIME5 (lime_window_create);
-	DEFINE_PRIME2 (lime_window_create_from);
+	DEFINE_PRIME3 (lime_window_create_from);
 	DEFINE_PRIME2v (lime_window_event_manager_register);
 	DEFINE_PRIME1v (lime_window_focus);
 	DEFINE_PRIME1 (lime_window_get_context);
@@ -4116,7 +4116,7 @@ namespace lime {
 	DEFINE_HL_PRIM (_VOID, lime_window_context_make_current, _TCFFIPOINTER);
 	DEFINE_HL_PRIM (_VOID, lime_window_context_unlock, _TCFFIPOINTER);
 	DEFINE_HL_PRIM (_TCFFIPOINTER, lime_window_create, _TCFFIPOINTER _I32 _I32 _I32 _STRING);
-	DEFINE_HL_PRIM (_TCFFIPOINTER, lime_window_create_from, _TCFFIPOINTER _I32);
+	DEFINE_HL_PRIM (_TCFFIPOINTER, lime_window_create_from, _TCFFIPOINTER _I32 _I32);
 	DEFINE_HL_PRIM (_VOID, lime_window_event_manager_register, _FUN (_VOID, _NO_ARG) _TWINDOW_EVENT);
 	DEFINE_HL_PRIM (_VOID, lime_window_focus, _TCFFIPOINTER);
 	DEFINE_HL_PRIM (_F64, lime_window_get_context, _TCFFIPOINTER);
