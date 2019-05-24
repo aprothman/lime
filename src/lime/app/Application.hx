@@ -140,7 +140,8 @@ class Application extends Module
 
 	/**
 		Creates a new Window and adds it to the Application
-		@param	foreignHandle	A handle to an OS window to add
+		@param	foreignHandle A handle to an OS window to add
+		@param	attributes	  A set of parameters used to initialize the renderer
 	**/
 	public function createWindowFrom(foreignHandle:Int, attributes:RenderContextAttributes):Window
 	{
