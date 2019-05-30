@@ -14,8 +14,11 @@ class FlashApplication
 	private var parent:Application;
 	private var requestedWindow:Bool;
 
+	private var initialized:Bool;
+
 	public function new(parent:Application):Void
 	{
+		initialized = false;
 		this.parent = parent;
 
 		AudioManager.init();
@@ -26,12 +29,23 @@ class FlashApplication
 		createFirstWindow = false;
 	}
 
+	public function init():Void
+	{
+		if (!initialized) {
+			Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+
+			initialized = true;
+		}
+	}
+
 	public function exec():Int
 	{
-		Multitouch.inputMode = MultitouchInputMode.TOUCH_POINT;
+		init();
 
 		return 0;
 	}
+
+	public function batchUpdate(numEvents:Int):Int { return 0; }
 
 	public function exit():Void {}
 }

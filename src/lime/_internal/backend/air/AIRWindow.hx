@@ -17,11 +17,14 @@ import lime.ui.Window;
 @:access(lime.ui.Window)
 class AIRWindow extends FlashWindow
 {
+	private var created:Bool;
 	private var closing:Bool;
 	private var nativeWindow:NativeWindow;
 
 	public function new(parent:Window)
 	{
+		created = false;
+
 		super(parent);
 	}
 
@@ -58,8 +61,12 @@ class AIRWindow extends FlashWindow
 		}
 	}
 
-	private override function create():Void
+	puclic override function create():Void
 	{
+		if (created) {
+			return;
+		}
+
 		var title = (parent.__title != null && parent.__title != "") ? parent.__title : "Lime Application";
 		var attributes = parent.__attributes;
 
@@ -161,6 +168,8 @@ class AIRWindow extends FlashWindow
 			parent.context.attributes.depth = true;
 			parent.context.attributes.stencil = true;
 		}
+
+		created = true;
 	}
 
 	public override function focus():Void

@@ -235,6 +235,10 @@ class HTML5Window
 		}
 	}
 
+	public  function create():Void {}
+
+	public function createFrom(foreignHandle:Int):Void {}
+
 	public function alert(message:String, title:String):Void
 	{
 		if (message != null)

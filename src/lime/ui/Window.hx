@@ -362,9 +362,7 @@ class Window
 		if (Reflect.hasField(__attributes, "parameters")) parameters = __attributes.parameters;
 
 		__backend = new WindowBackend(this);
-		#if (!air && !flash && !(js && html5))
 		__backend.create();
-		#end
 
 		__created = true;
 	}
@@ -376,9 +374,7 @@ class Window
 		__attributes = attributes != null ? { context : attributes } : {};
 
 		__backend = new WindowBackend(this);
-		#if (!air && !flash && !(js && html5))
 		__backend.createFrom(foreignHandle);
-		#end
 
 		__created = true;
 	}

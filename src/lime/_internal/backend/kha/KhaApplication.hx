@@ -54,6 +54,7 @@ class KhaApplication
 
 	public var handle:Dynamic;
 
+	private var initialized:Bool;
 	private var frameRate:Float;
 	private var parent:Application;
 	private var toggleFullscreen:Bool;
@@ -62,6 +63,7 @@ class KhaApplication
 
 	public function new(parent:Application):Void
 	{
+		initialized = false;
 		this.parent = parent;
 		frameRate = 60;
 		toggleFullscreen = true;
@@ -69,11 +71,20 @@ class KhaApplication
 
 	public function create(config:Config):Void {}
 
+	public function init():Void
+	{
+		if (!initialized) {
+			#if !macro
+			kha.input.Mouse.get().notify(mouseDown, mouseUp, mouseMove, mouseWheel);
+			#end
+
+			initialized = true;
+		}
+	}
+
 	public function exec():Int
 	{
 		#if !macro
-		kha.input.Mouse.get().notify(mouseDown, mouseUp, mouseMove, mouseWheel);
-
 		kha.System.notifyOnRender(function(framebuffer:kha.Framebuffer)
 		{
 			for (renderer in parent.renderers)
@@ -94,6 +105,8 @@ class KhaApplication
 
 		return 0;
 	}
+
+	public function batchUpdate(numEvents:Int):Int { return 0 }
 
 	private function mouseDown(button:Int, x:Int, y:Int):Void
 	{

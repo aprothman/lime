@@ -38,6 +38,7 @@ class FlashWindow
 {
 	private static var windowID = 0;
 
+	private var created:Bool;
 	private var cacheMouseX:Float;
 	private var cacheMouseY:Float;
 	private var cacheTime:Int;
@@ -51,13 +52,12 @@ class FlashWindow
 
 	public function new(parent:Window)
 	{
+		created = false;
 		this.parent = parent;
 
 		cacheMouseX = 0;
 		cacheMouseY = 0;
 		cursor = DEFAULT;
-
-		create();
 	}
 
 	public function alert(message:String, title:String):Void {}
@@ -195,8 +195,12 @@ class FlashWindow
 		return keyCode;
 	}
 
-	private function create():Void
+	public function create():Void
 	{
+		if (created) {
+			return;
+		}
+
 		if (#if air true #else FlashApplication.createFirstWindow #end)
 		{
 			var attributes = parent.__attributes;
@@ -285,7 +289,11 @@ class FlashWindow
 
 			stage.addEventListener(Event.ENTER_FRAME, handleApplicationEvent);
 		}
+
+		created = true;
 	}
+
+	public function createFrom(foreignHandle:Int):Void {}
 
 	public function focus():Void {}
 

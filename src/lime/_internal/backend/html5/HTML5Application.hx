@@ -35,8 +35,11 @@ class HTML5Application
 	private var stats:Dynamic;
 	#end
 
+	private var initialized:Bool;
+
 	public inline function new(parent:Application)
 	{
+		initialized = false;
 		this.parent = parent;
 
 		currentUpdate = 0;
@@ -268,22 +271,31 @@ class HTML5Application
 		return keyCode;
 	}
 
+	public function init():Void
+	{
+		if (!initialized) {
+			Browser.window.addEventListener("keydown", handleKeyEvent, false);
+			Browser.window.addEventListener("keyup", handleKeyEvent, false);
+			Browser.window.addEventListener("focus", handleWindowEvent, false);
+			Browser.window.addEventListener("blur", handleWindowEvent, false);
+			Browser.window.addEventListener("resize", handleWindowEvent, false);
+			Browser.window.addEventListener("beforeunload", handleWindowEvent, false);
+			Browser.window.addEventListener("devicemotion", handleSensorEvent, false);
+
+			#if stats
+			stats = untyped __js__("new Stats ()");
+			stats.domElement.style.position = "absolute";
+			stats.domElement.style.top = "0px";
+			Browser.document.body.appendChild(stats.domElement);
+			#end
+
+			initialized = true;
+		}
+	}
+
 	public function exec():Int
 	{
-		Browser.window.addEventListener("keydown", handleKeyEvent, false);
-		Browser.window.addEventListener("keyup", handleKeyEvent, false);
-		Browser.window.addEventListener("focus", handleWindowEvent, false);
-		Browser.window.addEventListener("blur", handleWindowEvent, false);
-		Browser.window.addEventListener("resize", handleWindowEvent, false);
-		Browser.window.addEventListener("beforeunload", handleWindowEvent, false);
-		Browser.window.addEventListener("devicemotion", handleSensorEvent, false);
-
-		#if stats
-		stats = untyped __js__("new Stats ()");
-		stats.domElement.style.position = "absolute";
-		stats.domElement.style.top = "0px";
-		Browser.document.body.appendChild(stats.domElement);
-		#end
+		init();
 
 		untyped __js__("
 			if (!CanvasRenderingContext2D.prototype.isPointInStroke) {
@@ -342,6 +354,8 @@ class HTML5Application
 
 		return 0;
 	}
+
+	public function batchUpdate(numEvents:Int):Int { return 0; }
 
 	public function exit():Void {}
 
