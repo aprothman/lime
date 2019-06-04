@@ -61,7 +61,7 @@ class AIRWindow extends FlashWindow
 		}
 	}
 
-	puclic override function create():Void
+	public override function create():Void
 	{
 		if (created) {
 			return;
