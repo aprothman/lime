@@ -17,7 +17,6 @@ import lime.ui.Window;
 @:access(lime.ui.Window)
 class AIRWindow extends FlashWindow
 {
-	private var created:Bool;
 	private var closing:Bool;
 	private var nativeWindow:NativeWindow;
 
