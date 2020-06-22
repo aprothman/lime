@@ -792,9 +792,9 @@ class NativeCFFI
 		return false;
 	}
 
-	@:hlNative("lime", "lime_application_batch_update") private static function lime_application_batch_update (handle:CFFIPointer, value:Int):Int
+	@:hlNative("lime", "lime_application_batch_update") private static function lime_application_batch_update(handle:CFFIPointer, value:Int):Int
 	{
-		return false;
+		return 0;
 	}
 
 	// @:cffi private static function lime_audio_load (data:Dynamic, buffer:Dynamic):Dynamic;
