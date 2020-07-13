@@ -140,7 +140,7 @@ class NativeApplication
 
 		#else
 
-		return false;
+		return 0;
 
 		#end
 	}
