@@ -126,6 +126,8 @@ namespace lime {
 
 	void SDLApplication::HandleEvent (SDL_Event* event) {
 
+		if (!event) return;
+
 		switch (event->type) {
 
 			case SDL_USEREVENT:

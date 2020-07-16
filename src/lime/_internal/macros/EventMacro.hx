@@ -88,6 +88,9 @@ class EventMacro
 
 					while (i < listeners.length)
 					{
+						if (listeners[i] == null) {
+							break;
+						}
 						listeners[i]($a{argNames});
 
 						if (!repeat[i])

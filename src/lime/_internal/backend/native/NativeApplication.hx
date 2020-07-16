@@ -135,7 +135,8 @@ class NativeApplication
 	public function batchUpdate(numEvents:Int):Int
 	{
 		#if (!macro && lime_cffi)
-
+		if (handle == null || numEvents == 0) return 0;
+		
 		return NativeCFFI.lime_application_batch_update(handle, numEvents);
 
 		#else
