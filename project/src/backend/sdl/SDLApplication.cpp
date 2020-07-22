@@ -71,7 +71,7 @@ namespace lime {
 		WindowEvent windowEvent;
 
 		SDL_EventState (SDL_DROPFILE, SDL_ENABLE);
-		SDLJoystick::Init ();
+		//SDLJoystick::Init ();
 
 		#ifdef HX_MACOS
 		CFURLRef resourcesURL = CFBundleCopyResourcesDirectoryURL (CFBundleGetMainBundle ());
@@ -337,7 +337,7 @@ namespace lime {
 		lastUpdate = SDL_GetTicks ();
 		nextUpdate = lastUpdate;
 
-		while (20 == BatchUpdate(20));
+		while (32 == BatchUpdate(32));
 
 	}
 
@@ -989,10 +989,10 @@ namespace lime {
 
 		}
 
+		#endif
+
 		if (!isGCBlocking) System::GCEnterBlocking ();
 		isGCBlocking = true;
-
-		#endif
 
 		return nextEvent;
 	}
