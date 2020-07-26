@@ -337,7 +337,7 @@ namespace lime {
 		lastUpdate = SDL_GetTicks ();
 		nextUpdate = lastUpdate;
 
-		while (32 == BatchUpdate(32));
+		while (48 == BatchUpdate(48));
 
 	}
 
@@ -962,8 +962,8 @@ namespace lime {
 		int numPending = GetPendingEvents (eventQueue, queueLength);
 
 		// only allow GC free objects while we're handling events
-		if (isGCBlocking) System::GCExitBlocking ();
-		isGCBlocking = false;
+		/*if (isGCBlocking) System::GCExitBlocking ();
+		isGCBlocking = false;*/
 		
 		int nextEvent;
 		for (nextEvent = 0; nextEvent < numPending; ++nextEvent) {
@@ -986,6 +986,9 @@ namespace lime {
 			mouseMoved->type = -1;
 		}
 
+		/*if (!isGCBlocking) System::GCEnterBlocking ();
+		isGCBlocking = true;*/
+
 		currentUpdate = SDL_GetTicks ();
 
 		#if (!defined (IPHONE) && !defined (EMSCRIPTEN))
@@ -1003,9 +1006,6 @@ namespace lime {
 		}
 
 		#endif
-
-		if (!isGCBlocking) System::GCEnterBlocking ();
-		isGCBlocking = true;
 
 		return nextEvent;
 	}
