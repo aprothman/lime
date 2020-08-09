@@ -15,9 +15,9 @@ import lime.system.JNI;
 import lime.system.Sensor;
 import lime.system.SensorType;
 import lime.system.System;
-import lime.ui.Gamepad;
-import lime.ui.Joystick;
-import lime.ui.JoystickHatPosition;
+//import lime.ui.Gamepad;
+//import lime.ui.Joystick;
+//import lime.ui.JoystickHatPosition;
 import lime.ui.KeyCode;
 import lime.ui.KeyModifier;
 import lime.ui.Touch;
@@ -37,8 +37,8 @@ import lime.ui.Window;
 @:access(lime.graphics.Renderer)
 @:access(lime.system.Clipboard)
 @:access(lime.system.Sensor)
-@:access(lime.ui.Gamepad)
-@:access(lime.ui.Joystick)
+//@:access(lime.ui.Gamepad)
+//@:access(lime.ui.Joystick)
 @:access(lime.ui.Window)
 class NativeApplication
 {
@@ -46,8 +46,8 @@ class NativeApplication
 	private var clipboardEventInfo = new ClipboardEventInfo();
 	private var currentTouches = new Map<Int, Touch>();
 	private var dropEventInfo = new DropEventInfo();
-	private var gamepadEventInfo = new GamepadEventInfo();
-	private var joystickEventInfo = new JoystickEventInfo();
+	//private var gamepadEventInfo = new GamepadEventInfo();
+	//private var joystickEventInfo = new JoystickEventInfo();
 	private var keyEventInfo = new KeyEventInfo();
 	private var mouseEventInfo = new MouseEventInfo();
 	private var renderEventInfo = new RenderEventInfo(RENDER);
@@ -111,8 +111,8 @@ class NativeApplication
 			NativeCFFI.lime_application_event_manager_register(handleApplicationEvent, applicationEventInfo);
 			NativeCFFI.lime_clipboard_event_manager_register(handleClipboardEvent, clipboardEventInfo);
 			NativeCFFI.lime_drop_event_manager_register(handleDropEvent, dropEventInfo);
-			NativeCFFI.lime_gamepad_event_manager_register(handleGamepadEvent, gamepadEventInfo);
-			NativeCFFI.lime_joystick_event_manager_register(handleJoystickEvent, joystickEventInfo);
+			//NativeCFFI.lime_gamepad_event_manager_register(handleGamepadEvent, gamepadEventInfo);
+			//NativeCFFI.lime_joystick_event_manager_register(handleJoystickEvent, joystickEventInfo);
 			NativeCFFI.lime_key_event_manager_register(handleKeyEvent, keyEventInfo);
 			NativeCFFI.lime_mouse_event_manager_register(handleMouseEvent, mouseEventInfo);
 			NativeCFFI.lime_render_event_manager_register(handleRenderEvent, renderEventInfo);
@@ -219,7 +219,7 @@ class NativeApplication
 		}
 	}
 
-	private function handleGamepadEvent():Void
+	/*private function handleGamepadEvent():Void
 	{
 		switch (gamepadEventInfo.type)
 		{
@@ -273,7 +273,7 @@ class NativeApplication
 			case DISCONNECT:
 				Joystick.__disconnect(joystickEventInfo.id);
 		}
-	}
+	}*/
 
 	private function handleKeyEvent():Void
 	{
@@ -284,7 +284,7 @@ class NativeApplication
 			var type:KeyEventType = keyEventInfo.type;
 			var keyCode:KeyCode = keyEventInfo.keyCode;
 			var modifier:KeyModifier = keyEventInfo.modifier;
-
+			
 			switch (type)
 			{
 				case KEY_DOWN:
@@ -696,8 +696,8 @@ class NativeApplication
 	var DROP_FILE = 0;
 }
 
-@:keep /*private*/ class GamepadEventInfo
-{
+//@:keep /*private*/ class GamepadEventInfo
+/*{
 	public var axis:Int;
 	public var button:Int;
 	public var id:Int;
@@ -726,10 +726,10 @@ class NativeApplication
 	var BUTTON_UP = 2;
 	var CONNECT = 3;
 	var DISCONNECT = 4;
-}
+}*/
 
-@:keep /*private*/ class JoystickEventInfo
-{
+//@:keep /*private*/ class JoystickEventInfo
+/*{
 	public var id:Int;
 	public var index:Int;
 	public var type:JoystickEventType;
@@ -762,7 +762,7 @@ class NativeApplication
 	var BUTTON_UP = 4;
 	var CONNECT = 5;
 	var DISCONNECT = 6;
-}
+}*/
 
 @:keep /*private*/ class KeyEventInfo
 {
