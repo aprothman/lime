@@ -108,6 +108,25 @@ class NativeApplication
 	{
 		if (!initialized) {
 			#if (!macro && lime_cffi)
+			// NOTE: Patch to set certain event's windowID to our primary window id bc createWindowFrom will set id to 1 instead of 0
+			parent.window.focus();
+			if (!parent.__windowByID.exists(keyEventInfo.windowID)) {
+				trace('No such window. Setting keyEventInfo.windowID ${keyEventInfo.windowID} to primary windowID ${parent.window.id}');
+				keyEventInfo.windowID = parent.window.id;
+			}
+			if (!parent.__windowByID.exists(mouseEventInfo.windowID)) {
+				trace('No such window. Setting mouseEventInfo.windowID ${mouseEventInfo.windowID} to primary windowID ${parent.window.id}');
+				mouseEventInfo.windowID = parent.window.id;
+			}
+			if (!parent.__windowByID.exists(textEventInfo.windowID)) {
+				trace('No such window. Setting textEventInfo.windowID ${textEventInfo.windowID} to primary windowID ${parent.window.id}');
+				textEventInfo.windowID = parent.window.id;
+			}
+			if (!parent.__windowByID.exists(windowEventInfo.windowID)) {
+				trace('No such window. Setting mouseEventInfo.windowID ${windowEventInfo.windowID} to primary windowID ${parent.window.id}');
+				windowEventInfo.windowID = parent.window.id;
+			}
+
 			NativeCFFI.lime_application_event_manager_register(handleApplicationEvent, applicationEventInfo);
 			NativeCFFI.lime_clipboard_event_manager_register(handleClipboardEvent, clipboardEventInfo);
 			NativeCFFI.lime_drop_event_manager_register(handleDropEvent, dropEventInfo);
@@ -277,6 +296,11 @@ class NativeApplication
 
 	private function handleKeyEvent():Void
 	{
+		// NOTE: Patch to set certain event's windowID to our primary window id bc createWindowFrom will set id to 1 instead of 0
+		if (!parent.__windowByID.exists(keyEventInfo.windowID)) {
+			keyEventInfo.windowID = parent.window.id;
+		}
+
 		var window = parent.__windowByID.get(keyEventInfo.windowID);
 
 		if (window != null)
@@ -355,6 +379,11 @@ class NativeApplication
 
 	private function handleMouseEvent():Void
 	{
+		// NOTE: Patch to set certain event's windowID to our primary window id bc createWindowFrom will set id to 1 instead of 0
+		if (!parent.__windowByID.exists(mouseEventInfo.windowID)) {
+			mouseEventInfo.windowID = parent.window.id;
+		}
+
 		var window = parent.__windowByID.get(mouseEventInfo.windowID);
 
 		if (window != null)
@@ -446,6 +475,11 @@ class NativeApplication
 
 	private function handleTextEvent():Void
 	{
+		// NOTE: Patch to set certain event's windowID to our primary window id bc createWindowFrom will set id to 1 instead of 0
+		if (!parent.__windowByID.exists(textEventInfo.windowID)) {
+			textEventInfo.windowID = parent.window.id;
+		}
+
 		var window = parent.__windowByID.get(textEventInfo.windowID);
 
 		if (window != null)
@@ -528,6 +562,11 @@ class NativeApplication
 
 	private function handleWindowEvent():Void
 	{
+		// NOTE: Patch to set certain event's windowID to our primary window id bc createWindowFrom will set id to 1 instead of 0
+		if (!parent.__windowByID.exists(windowEventInfo.windowID)) {
+			windowEventInfo.windowID = parent.window.id;
+		}
+
 		var window = parent.__windowByID.get(windowEventInfo.windowID);
 
 		if (window != null)
