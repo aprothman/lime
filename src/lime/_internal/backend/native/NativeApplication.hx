@@ -46,8 +46,8 @@ class NativeApplication
 	private var clipboardEventInfo = new ClipboardEventInfo();
 	private var currentTouches = new Map<Int, Touch>();
 	private var dropEventInfo = new DropEventInfo();
-	private var gamepadEventInfo = new GamepadEventInfo();
-	private var joystickEventInfo = new JoystickEventInfo();
+	//private var gamepadEventInfo = new GamepadEventInfo();
+	//private var joystickEventInfo = new JoystickEventInfo();
 	private var keyEventInfo = new KeyEventInfo();
 	private var mouseEventInfo = new MouseEventInfo();
 	private var renderEventInfo = new RenderEventInfo(RENDER);
@@ -111,8 +111,8 @@ class NativeApplication
 			NativeCFFI.lime_application_event_manager_register(handleApplicationEvent, applicationEventInfo);
 			NativeCFFI.lime_clipboard_event_manager_register(handleClipboardEvent, clipboardEventInfo);
 			NativeCFFI.lime_drop_event_manager_register(handleDropEvent, dropEventInfo);
-			NativeCFFI.lime_gamepad_event_manager_register(handleGamepadEvent, gamepadEventInfo);
-			NativeCFFI.lime_joystick_event_manager_register(handleJoystickEvent, joystickEventInfo);
+			//NativeCFFI.lime_gamepad_event_manager_register(handleGamepadEvent, gamepadEventInfo);
+			//NativeCFFI.lime_joystick_event_manager_register(handleJoystickEvent, joystickEventInfo);
 			NativeCFFI.lime_key_event_manager_register(handleKeyEvent, keyEventInfo);
 			NativeCFFI.lime_mouse_event_manager_register(handleMouseEvent, mouseEventInfo);
 			NativeCFFI.lime_render_event_manager_register(handleRenderEvent, renderEventInfo);
@@ -284,7 +284,7 @@ class NativeApplication
 			var type:KeyEventType = keyEventInfo.type;
 			var keyCode:KeyCode = keyEventInfo.keyCode;
 			var modifier:KeyModifier = keyEventInfo.modifier;
-
+			
 			switch (type)
 			{
 				case KEY_DOWN:
