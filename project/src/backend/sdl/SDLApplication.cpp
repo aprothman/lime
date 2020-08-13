@@ -55,6 +55,8 @@ namespace lime {
 		eventQueue = NULL;
 		queueLength = 0;
 		queueMaxLength = 0;
+		isFirstPass = true;
+		isExecuting = false;
 		isGCBlocking = false;
 
 		ApplicationEvent applicationEvent;
@@ -104,6 +106,8 @@ namespace lime {
 	int SDLApplication::Exec () {
 
 		Init ();
+
+		isExecuting = true;
 
 		#if defined(IPHONE) || defined(EMSCRIPTEN)
 
@@ -322,8 +326,11 @@ namespace lime {
 				break;
 
 			case SDL_QUIT:
-
-				active = false;
+				
+				if (!isFirstPass) {
+					active = false;
+					isExecuting = false;
+				}
 				break;
 
 		}
@@ -332,7 +339,7 @@ namespace lime {
 
 
 	void SDLApplication::Init () {
-
+		printf("SDLApplication Init called. active = true");
 		active = true;
 		lastUpdate = SDL_GetTicks ();
 		nextUpdate = lastUpdate;
@@ -938,9 +945,8 @@ namespace lime {
 
 		SDL_Event* mouseMoved = NULL;
 
-		if (!active) {
-			return -1;
-		}
+		// Turns out active can sometimes not have been set yet
+		if (isFirstPass && !active) active = true;
 		
 		queueLength = numEvents;
 
@@ -959,36 +965,42 @@ namespace lime {
 			}
 		}
 		
+		int nextEvent;
 		int numPending = GetPendingEvents (eventQueue, queueLength);
 
-		// only allow GC free objects while we're handling events
-		/*if (isGCBlocking) System::GCExitBlocking ();
-		isGCBlocking = false;*/
-		
-		int nextEvent;
-		for (nextEvent = 0; nextEvent < numPending; ++nextEvent) {
+		if (numPending > 0)
+		{
 
-			if (SDL_MOUSEMOTION == eventQueue[nextEvent].type) {
-				// we'll only handle the last motion event in the batch
-				mouseMoved = &eventQueue[nextEvent];
-			} else {
-				HandleEvent (&eventQueue[nextEvent]);
-				eventQueue[nextEvent].type = -1;
-				if (!active) {
-					return -1;
+			// only allow GC free objects while we're handling events
+			/*if (isGCBlocking) System::GCExitBlocking ();
+			isGCBlocking = false;*/
+			
+			for (nextEvent = 0; nextEvent < numPending; ++nextEvent) {
+
+				if (SDL_MOUSEMOTION == eventQueue[nextEvent].type) {
+					// we'll only handle the last motion event in the batch
+					mouseMoved = &eventQueue[nextEvent];
+				} else {
+					HandleEvent (&eventQueue[nextEvent]);
+					eventQueue[nextEvent].type = -1;
+
+					if (isFirstPass && !active) active = true;
+					if (!active) {
+						return -1;
+					}
 				}
 			}
+
+			// handle the mouse motion event if there is one this batch
+			if (NULL != mouseMoved) {
+				HandleEvent (mouseMoved);
+				mouseMoved->type = -1;
+			}
+
+			/*if (!isGCBlocking) System::GCEnterBlocking ();
+			isGCBlocking = true;*/
+
 		}
-
-		// handle the mouse motion event if there is one this batch
-		if (NULL != mouseMoved) {
-			HandleEvent (mouseMoved);
-			mouseMoved->type = -1;
-		}
-
-		/*if (!isGCBlocking) System::GCEnterBlocking ();
-		isGCBlocking = true;*/
-
 		currentUpdate = SDL_GetTicks ();
 
 		#if (!defined (IPHONE) && !defined (EMSCRIPTEN))
@@ -1006,6 +1018,8 @@ namespace lime {
 		}
 
 		#endif
+
+		if (isFirstPass) isFirstPass = false;
 
 		return nextEvent;
 	}
