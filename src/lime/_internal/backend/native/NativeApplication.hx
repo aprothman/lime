@@ -735,8 +735,8 @@ class NativeApplication
 	var DROP_FILE = 0;
 }
 
-//@:keep /*private*/ class GamepadEventInfo
-/*{
+@:keep /*private*/ class GamepadEventInfo
+{
 	public var axis:Int;
 	public var button:Int;
 	public var id:Int;
@@ -765,10 +765,10 @@ class NativeApplication
 	var BUTTON_UP = 2;
 	var CONNECT = 3;
 	var DISCONNECT = 4;
-}*/
+}
 
-//@:keep /*private*/ class JoystickEventInfo
-/*{
+@:keep /*private*/ class JoystickEventInfo
+{
 	public var id:Int;
 	public var index:Int;
 	public var type:JoystickEventType;
@@ -801,7 +801,7 @@ class NativeApplication
 	var BUTTON_UP = 4;
 	var CONNECT = 5;
 	var DISCONNECT = 6;
-}*/
+}
 
 @:keep /*private*/ class KeyEventInfo
 {
