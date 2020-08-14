@@ -26,3 +26,7 @@ node_modules
 .vscode/
 
 project/lib/
+
+ndll/Windows/ssl.hdll
+
+ndll/Windows64/ssl.hdll
