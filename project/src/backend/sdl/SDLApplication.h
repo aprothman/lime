@@ -64,6 +64,7 @@ namespace lime {
 			int queueLength;
 			int queueMaxLength;
 			bool isFirstPass;
+			bool isFirstDelay;
 			bool isExecuting;
 			bool isGCBlocking;
 			ApplicationEvent applicationEvent;

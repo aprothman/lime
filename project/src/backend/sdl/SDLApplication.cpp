@@ -56,6 +56,7 @@ namespace lime {
 		queueLength = 0;
 		queueMaxLength = 0;
 		isFirstPass = true;
+		isFirstDelay = true;
 		isExecuting = false;
 		isGCBlocking = false;
 
@@ -1000,6 +1001,12 @@ namespace lime {
 			/*if (!isGCBlocking) System::GCEnterBlocking ();
 			isGCBlocking = true;*/
 
+		} else {
+			if (isFirstDelay && !active) {
+				active = true;
+				isFirstDelay = false;
+			}
+			SDL_Delay (1);
 		}
 		currentUpdate = SDL_GetTicks ();
 
