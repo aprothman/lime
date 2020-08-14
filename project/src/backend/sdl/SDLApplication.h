@@ -63,8 +63,8 @@ namespace lime {
 			SDL_Event* eventQueue;
 			int queueLength;
 			int queueMaxLength;
-			bool isFirstPass;
-			bool isFirstDelay;
+			bool isFirstNonActivePass;
+			bool isFirstNonActiveDelay;
 			bool isExecuting;
 			bool isGCBlocking;
 			ApplicationEvent applicationEvent;
