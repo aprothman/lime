@@ -203,6 +203,20 @@ class NativeApplication
 		return 0;
 	}
 
+	public function startExec():Void
+	{
+		#if (!macro && lime_cffi)
+		NativeCFFI.lime_application_start_exec(handle);
+		#end
+	}
+
+	public function stopExec():Void
+	{
+		#if (!macro && lime_cffi)
+		NativeCFFI.lime_application_stop_exec(handle);
+		#end
+	}
+
 	public function exit():Void
 	{
 		AudioManager.shutdown();

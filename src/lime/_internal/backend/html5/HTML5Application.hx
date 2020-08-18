@@ -357,6 +357,10 @@ class HTML5Application
 
 	public function batchUpdate(numEvents:Int):Int { return 0; }
 
+	public function startExec():Void {}
+
+	public function stopExec():Void {}
+
 	public function exit():Void {}
 
 	private function handleApplicationEvent(?__):Void

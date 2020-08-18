@@ -174,6 +174,16 @@ class Application extends Module
 		return __backend.exec();
 	}
 
+	public function startExec():Void {
+		Application.current = this;
+
+		__backend.startExec();
+	}
+
+	public function stopExec():Void {
+		__backend.stopExec();
+	}
+
 	/**
 		Pump and handle a set of pending events, then return
 		@param  numEvents The maximum number of events to process

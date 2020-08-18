@@ -128,6 +128,24 @@ namespace lime {
 
 	}
 
+	void SDLApplication::StartExec () {
+
+		isExecuting = true;
+
+		while (isExecuting) {
+
+			Update ();
+
+		}
+
+	}
+
+	void SDLApplication::StopExec () {
+
+		isExecuting = false;
+
+	}
+
 
 	void SDLApplication::HandleEvent (SDL_Event* event) {
 
@@ -1015,6 +1033,19 @@ namespace lime {
 			}
 			SDL_Delay (1);
 		}
+		/*else if (SDL_WaitEventTimeout (&delayedEvent, 512))
+		{
+
+			// only allow GC free objects while we're handling events
+			if (isGCBlocking) {
+				System::GCExitBlocking ();
+				isGCBlocking = false;
+			}
+
+			HandleEvent (&delayedEvent);
+
+		}*/
+
 		currentUpdate = SDL_GetTicks ();
 
 		#if (!defined (IPHONE) && !defined (EMSCRIPTEN))
@@ -1072,18 +1103,27 @@ namespace lime {
 
 				case -1:
 
-					if (isBlocking) System::GCExitBlocking ();
+					if (isBlocking) {
+						System::GCExitBlocking ();
+						isGCBlocking = false; // for BatchUpdate use
+					}
 					return 0;
 
 				case 1:
 
-					if (isBlocking) System::GCExitBlocking ();
+					if (isBlocking) {
+						System::GCExitBlocking ();
+						isGCBlocking = false; // for BatchUpdate use
+					}
 					return 1;
 
 				default:
 
-					if (!isBlocking) System::GCEnterBlocking ();
-					isBlocking = true;
+					if (!isBlocking) {
+						System::GCEnterBlocking ();
+						isBlocking = true;
+						isGCBlocking = true; // for BatchUpdate use
+					}
 					SDL_Delay (1);
 					break;
 
