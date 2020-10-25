@@ -6,7 +6,8 @@
 	<set name="lime" />
 
 	<define name="native" if="cpp || neko || nodejs || cs || java || hl" />
-	<define name="howlerjs" if="html5" />
+	<!--define name="howlerjs" if="html5" /--> <!-- Comment out to prevent including howler.js, as we don't need audio -->
+	<!--define name="pako" if="html5" /--> <!-- Comment out to prevent including pako.js, as we don't need compression tools -->
 
 	<define name="lime-cairo" if="native" />
 	<define name="lime-canvas" if="html5" />
@@ -82,7 +83,7 @@
 
 		<dependency name="extension-api" path="dependencies/extension-api" if="android" />
 		<dependency path="dependencies/howler.min.js" if="html5 howlerjs" embed="true" />
-		<dependency path="dependencies/pako.min.js" if="html5" embed="true" />
+		<dependency path="dependencies/pako.min.js" if="html5 pako" embed="true" />
 		<dependency path="dependencies/FileSaver.min.js" if="html5" embed="true" />
 		<dependency path="dependencies/webgl-debug.js" if="html5 webgl-debug" embed="true" />
 		<dependency path="dependencies/stats.min.js" if="html5 stats" embed="true" />
