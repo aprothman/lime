@@ -55,7 +55,8 @@ namespace lime {
 		eventQueue = NULL;
 		queueLength = 0;
 		queueMaxLength = 0;
-		isFirstPass = true;
+		isFirstNonActivePass = true;
+		isFirstNonActiveDelay = true;
 		isExecuting = false;
 		isGCBlocking = false;
 
@@ -327,7 +328,7 @@ namespace lime {
 
 			case SDL_QUIT:
 				
-				if (!isFirstPass) {
+				if (!isFirstNonActivePass) {
 					active = false;
 					isExecuting = false;
 				}
@@ -943,10 +944,14 @@ namespace lime {
 
 	int SDLApplication::BatchUpdate (int numEvents) {
 
+		SDL_Event delayedEvent;
 		SDL_Event* mouseMoved = NULL;
 
-		// Turns out active can sometimes not have been set yet
-		if (isFirstPass && !active) active = true;
+		// active can sometimes not have been set yet or can prematurely be set false if events haven't fired in a bit, so mitigate
+		if (!active && isFirstNonActivePass) {
+			active = true;
+			isFirstNonActivePass = false;
+		}
 		
 		queueLength = numEvents;
 
@@ -984,7 +989,10 @@ namespace lime {
 					HandleEvent (&eventQueue[nextEvent]);
 					eventQueue[nextEvent].type = -1;
 
-					if (isFirstPass && !active) active = true;
+					if (!active && isFirstNonActivePass) {
+						active = true;
+						isFirstNonActivePass = false;
+					}
 					if (!active) {
 						return -1;
 					}
@@ -1000,6 +1008,12 @@ namespace lime {
 			/*if (!isGCBlocking) System::GCEnterBlocking ();
 			isGCBlocking = true;*/
 
+		} else {
+			if (!active && isFirstNonActiveDelay) {
+				active = true;
+				isFirstNonActiveDelay = false;
+			}
+			SDL_Delay (1);
 		}
 		currentUpdate = SDL_GetTicks ();
 
@@ -1018,8 +1032,6 @@ namespace lime {
 		}
 
 		#endif
-
-		if (isFirstPass) isFirstPass = false;
 
 		return nextEvent;
 	}
