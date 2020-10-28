@@ -23,7 +23,9 @@ import lime.ui.Window;
 @:access(lime.ui.Window)
 class HTML5Application
 {
+	#if !noGameDevice
 	private var gameDeviceCache = new Map<Int, GameDeviceData>();
+	#end
 	private var accelerometer:Sensor;
 	private var currentUpdate:Float;
 	private var deltaTime:Float;
@@ -368,7 +370,9 @@ class HTML5Application
 			window.__backend.updateSize();
 		}
 
+		#if !noGameDevice
 		updateGameDevices();
+		#end
 
 		currentUpdate = Date.now().getTime();
 
@@ -489,6 +493,7 @@ class HTML5Application
 		}
 	}
 
+	#if !noGameDevice
 	private function updateGameDevices():Void
 	{
 		var devices = Joystick.__getDeviceData();
@@ -630,8 +635,10 @@ class HTML5Application
 			}
 		}
 	}
+	#end
 }
 
+#if !noGameDevice
 class GameDeviceData
 {
 	public var connected:Bool;
@@ -647,3 +654,4 @@ class GameDeviceData
 		axes = [];
 	}
 }
+#end
