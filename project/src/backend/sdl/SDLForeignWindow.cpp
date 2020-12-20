@@ -43,9 +43,14 @@ namespace lime {
 		sdlWindow = SDL_CreateWindowFrom (foreignHandle);
 
 		if (!sdlWindow) {
+			// Initialize the video subsystem in case it isn't already initialized, and try again
+			SDL_VideoInit (NULL);
+			sdlWindow = SDL_CreateWindowFrom (foreignHandle);
 
-			printf ("Could not create SDL window: %s.\n", SDL_GetError ());
-			return;
+			if (!sdlWindow) {
+				printf ("Could not create SDL window: %s.\n", SDL_GetError ());
+				return;
+			}
 
 		}
 
