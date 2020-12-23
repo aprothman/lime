@@ -10,6 +10,8 @@ namespace lime {
 
 	void SDLForeignWindow::CreateFrom (const void* foreignHandle, int renderFlags) {
 
+		printf ("Any lingering SDL errors pre-window creation? %s.\n", SDL_GetError ());
+
 		renderFlags &= (WINDOW_FLAG_HARDWARE
 					  | WINDOW_FLAG_VSYNC);
 
@@ -157,6 +159,8 @@ namespace lime {
 			printf("Could not create SDL renderer: %s.\n", SDL_GetError ());
 
 		}
+		
+		printf ("Any lingering SDL errors post-window creation? %s.\n", SDL_GetError ());
 
 	}
 
