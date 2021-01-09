@@ -123,7 +123,7 @@ class NativeApplication
 				textEventInfo.windowID = parent.window.id;
 			}
 			if (!parent.__windowByID.exists(windowEventInfo.windowID)) {
-				trace('No such window. Setting mouseEventInfo.windowID ${windowEventInfo.windowID} to primary windowID ${parent.window.id}');
+				trace('No such window. Setting windowEventInfo.windowID ${windowEventInfo.windowID} to primary windowID ${parent.window.id}');
 				windowEventInfo.windowID = parent.window.id;
 			}
 
