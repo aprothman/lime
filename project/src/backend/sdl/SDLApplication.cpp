@@ -11,6 +11,7 @@
 #include "emscripten.h"
 #endif
 
+#define DISABLE_JOYSTICK
 
 namespace lime {
 
@@ -25,7 +26,11 @@ namespace lime {
 
 	SDLApplication::SDLApplication () {
 
+		#ifdef DISABLE_JOYSTICK
+		Uint32 initFlags = SDL_INIT_VIDEO | SDL_INIT_TIMER;
+		#else
 		Uint32 initFlags = SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER | SDL_INIT_TIMER | SDL_INIT_JOYSTICK;
+		#endif
 		#if defined(LIME_MOJOAL) || defined(LIME_OPENALSOFT)
 		initFlags |= SDL_INIT_AUDIO;
 		#endif
