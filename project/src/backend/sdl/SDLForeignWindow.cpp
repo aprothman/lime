@@ -10,7 +10,7 @@ namespace lime {
 
 	void SDLForeignWindow::CreateFrom (const void* foreignHandle, int renderFlags) {
 
-		printf ("Any lingering SDL errors pre-window creation? %s.\n", SDL_GetError ());
+		//printf ("Any lingering SDL errors pre-window creation? %s.\n", SDL_GetError ());
 
 		renderFlags &= (WINDOW_FLAG_HARDWARE
 					  | WINDOW_FLAG_VSYNC);
@@ -46,7 +46,10 @@ namespace lime {
 
 		if (!sdlWindow) {
 			// Initialize the video subsystem in case it isn't already initialized, and try again
-			SDL_VideoInit (NULL);
+			if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_EVENTS) != 0) {
+				SDL_Log("Unable to initialize SDL: %s", SDL_GetError());
+				return;
+			}
 			sdlWindow = SDL_CreateWindowFrom (foreignHandle);
 
 			if (!sdlWindow) {
@@ -160,7 +163,7 @@ namespace lime {
 
 		}
 		
-		printf ("Any lingering SDL errors post-window creation? %s.\n", SDL_GetError ());
+		//printf ("Any lingering SDL errors post-window creation? %s.\n", SDL_GetError ());
 
 	}
 
