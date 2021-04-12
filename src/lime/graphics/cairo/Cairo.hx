@@ -552,11 +552,10 @@ class Cairo
 			var _value = new hl.NativeArray<Float>(value.length);
 			for (i in 0...value.length)
 				_value[i] = value[i];
-			if (handle != null)
-				NativeCFFI.lime_cairo_set_dash(handle, _value);
+			
+			NativeCFFI.lime_cairo_set_dash(handle, _value);
 			#else
-			if (handle != null)
-				NativeCFFI.lime_cairo_set_dash(handle, value);
+			NativeCFFI.lime_cairo_set_dash(handle, value);
 			#end
 		}
 		#end
@@ -737,8 +736,7 @@ class Cairo
 			#if hl
 			NativeCFFI.lime_cairo_set_matrix(handle, value);
 			#else
-			if (handle != null)
-				NativeCFFI.lime_cairo_set_matrix(handle, value.a, value.b, value.c, value.d, value.tx, value.ty);
+			NativeCFFI.lime_cairo_set_matrix(handle, value.a, value.b, value.c, value.d, value.tx, value.ty);
 			// NativeCFFI.lime_cairo_set_matrix (handle, value);
 			#end
 		}
