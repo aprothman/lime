@@ -98,7 +98,7 @@ class Application extends Module
 	{
 		super();
 
-		if (Application.current == null)
+		if (Application.current == null || Application.current != this)
 		{
 			Application.current = this;
 		}
@@ -541,7 +541,10 @@ class Application extends Module
 	{
 		var window = new Window(this);
 		window.create(attributes);
-		if (window.id == -1) return null;
+		if (window.id == -1) {
+			@:privateAccess window.__created = false;
+			return null;
+		}
 		return window;
 	}
 
@@ -549,7 +552,10 @@ class Application extends Module
 	{
 		var window = new Window(this);
 		window.createFrom(foreignHandle, attributes);
-		if (window.id == -1) return null;
+		if (window.id == -1) {
+			@:privateAccess window.__created = false;
+			return null;
+		}
 		return window;
 	}
 
