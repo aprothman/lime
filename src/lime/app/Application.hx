@@ -143,10 +143,21 @@ class Application extends Module
 		@param	foreignHandle A handle to an OS window to add
 		@param	attributes	  A set of parameters used to initialize the renderer
 	**/
-	public function createWindowFrom(foreignHandle:Int, attributes:RenderContextAttributes):Window
+	public function createWindowFrom(foreignHandle:Int, attributes:RenderContextAttributes, maxTries:Int = 5):Window
 	{
-		var window = __createWindowFrom(foreignHandle, attributes);
-		__addWindow(window);
+		var tries:Int = 0;
+		var window:Window = null;
+		while (tries < maxTries) {
+			window = __createWindowFrom(foreignHandle, attributes);
+			if (window != null) break;
+			tries++;
+		}
+		if (window == null) {
+			//... Pump some helpful error here. Just a trace for now.
+			trace('Could not create window');
+		} else {
+			__addWindow(window);
+		}
 		return window;
 	}
 
