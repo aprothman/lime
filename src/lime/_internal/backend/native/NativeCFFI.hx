@@ -6799,17 +6799,20 @@ class NativeCFFI
 		return 0;
 	}
 
-	@:hlNative("lime", "lime_vorbis_file_pcm_seek_lap") private static function lime_vorbis_file_pcm_seek_lap(vorbisFile:CFFIPointer, posLow:Int, posHigh:Int):Int
+	@:hlNative("lime", "lime_vorbis_file_pcm_seek_lap") private static function lime_vorbis_file_pcm_seek_lap(vorbisFile:CFFIPointer, posLow:Int,
+			posHigh:Int):Int
 	{
 		return 0;
 	}
 
-	@:hlNative("lime", "lime_vorbis_file_pcm_seek_page") private static function lime_vorbis_file_pcm_seek_page(vorbisFile:CFFIPointer, posLow:Int, posHigh:Int):Int
+	@:hlNative("lime", "lime_vorbis_file_pcm_seek_page") private static function lime_vorbis_file_pcm_seek_page(vorbisFile:CFFIPointer, posLow:Int,
+			posHigh:Int):Int
 	{
 		return 0;
 	}
 
-	@:hlNative("lime", "lime_vorbis_file_pcm_seek_page_lap") private static function lime_vorbis_file_pcm_seek_page_lap(vorbisFile:CFFIPointer, posLow:Int, posHigh:Int):Int
+	@:hlNative("lime", "lime_vorbis_file_pcm_seek_page_lap") private static function lime_vorbis_file_pcm_seek_page_lap(vorbisFile:CFFIPointer, posLow:Int,
+			posHigh:Int):Int
 	{
 		return 0;
 	}
@@ -6819,7 +6822,8 @@ class NativeCFFI
 		return 0;
 	}
 
-	@:hlNative("lime", "lime_vorbis_file_raw_seek_lap") private static function lime_vorbis_file_raw_seek_lap(vorbisFile:CFFIPointer, posLow:Int, posHigh:Int):Int
+	@:hlNative("lime", "lime_vorbis_file_raw_seek_lap") private static function lime_vorbis_file_raw_seek_lap(vorbisFile:CFFIPointer, posLow:Int,
+			posHigh:Int):Int
 	{
 		return 0;
 	}
@@ -6844,12 +6848,14 @@ class NativeCFFI
 		return null;
 	}
 
-	@:hlNative("lime", "lime_vorbis_file_read") private static function lime_vorbis_file_read(vorbisFile:CFFIPointer, buffer:Bytes, position:Int, length:Int, bigendianp:Bool, word:Int, signed:Bool):Dynamic
+	@:hlNative("lime", "lime_vorbis_file_read") private static function lime_vorbis_file_read(vorbisFile:CFFIPointer, buffer:Bytes, position:Int, length:Int,
+			bigendianp:Bool, word:Int, signed:Bool):Dynamic
 	{
 		return null;
 	}
 
-	@:hlNative("lime", "lime_vorbis_file_read_float") private static function lime_vorbis_file_read_float(vorbisFile:CFFIPointer, pcmChannels:Bytes, samples:Int):Dynamic
+	@:hlNative("lime", "lime_vorbis_file_read_float") private static function lime_vorbis_file_read_float(vorbisFile:CFFIPointer, pcmChannels:Bytes,
+			samples:Int):Dynamic
 	{
 		return null;
 	}
