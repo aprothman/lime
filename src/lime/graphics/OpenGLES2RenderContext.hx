@@ -96,6 +96,7 @@ abstract OpenGLES2RenderContext(OpenGLES3RenderContext) from OpenGLES3RenderCont
 import lime.graphics.opengl.GL;
 
 @:forward()
+@:transitive
 abstract OpenGLES2RenderContext(Dynamic) from Dynamic to Dynamic
 {
 	@:from private static function fromGL(gl:Class<GL>):OpenGLES2RenderContext
