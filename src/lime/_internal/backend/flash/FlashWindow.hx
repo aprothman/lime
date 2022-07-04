@@ -48,6 +48,7 @@ class FlashWindow
 	private var mouseLeft:Bool;
 	private var parent:Window;
 	private var textInputEnabled:Bool;
+	private var textInputRect:Rectangle;
 	private var unusedTouchesPool = new List<Touch>();
 
 	public function new(parent:Window)
@@ -582,6 +583,11 @@ class FlashWindow
 	public function getTextInputEnabled():Bool
 	{
 		return textInputEnabled;
+	}
+
+	public function setTextInputRect(value:Rectangle):Rectangle
+	{
+		return textInputRect = value;
 	}
 
 	public function move(x:Int, y:Int):Void {}
