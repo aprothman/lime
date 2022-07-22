@@ -291,7 +291,7 @@ class HTML5Window
 						premultipliedAlpha: true,
 						stencil: Reflect.hasField(contextAttributes, "stencil") ? contextAttributes.stencil : false,
 						preserveDrawingBuffer: false,
-						failIfMajorPerformanceCaveat: true
+						failIfMajorPerformanceCaveat: false
 					};
 
 				var glContextType = ["webgl", "experimental-webgl"];
@@ -539,6 +539,9 @@ class HTML5Window
 	{
 		// In order to ensure that the browser will fire clipboard events, we always need to have something selected.
 		// Therefore, `value` cannot be "".
+
+		if(inputing)
+			return;
 
 		if (textInput.value != dummyCharacter)
 		{
@@ -1137,6 +1140,8 @@ class HTML5Window
 				textInput.addEventListener('cut', handleCutOrCopyEvent, true);
 				textInput.addEventListener('copy', handleCutOrCopyEvent, true);
 				textInput.addEventListener('paste', handlePasteEvent, true);
+				textInput.addEventListener('compositionstart', handleCompositionstartEvent, true);
+				textInput.addEventListener('compositionend', handleCompositionendEvent, true);
 			}
 
 			textInput.focus();
@@ -1151,6 +1156,8 @@ class HTML5Window
 				textInput.removeEventListener('cut', handleCutOrCopyEvent, true);
 				textInput.removeEventListener('copy', handleCutOrCopyEvent, true);
 				textInput.removeEventListener('paste', handlePasteEvent, true);
+				textInput.removeEventListener('compositionstart', handleCompositionstartEvent, true);
+				textInput.removeEventListener('compositionend', handleCompositionendEvent, true);
 
 				textInput.blur();
 			}
@@ -1158,6 +1165,18 @@ class HTML5Window
 
 		return textInputEnabled = value;
 	}
+
+	private var inputing = false;
+
+	public function handleCompositionstartEvent(e):Void{
+		inputing = true;
+	}
+
+	public function handleCompositionendEvent(e):Void{
+		inputing = false;
+		handleInputEvent(e);
+	}
+
 
 	public function setTitle(value:String):String
 	{
