@@ -182,7 +182,7 @@ class IOSPlatform extends PlatformTarget
 
 		if (project.config.getString("ios.device", "universal") == "universal" || project.config.getString("ios.device") == "iphone")
 		{
-			if (project.config.getFloat("ios.deployment", 8) < 5)
+			if (project.config.getFloat("ios.deployment", 9) < 5)
 			{
 				ArrayTools.addUnique(architectures, Architecture.ARMV6);
 			}
@@ -242,14 +242,14 @@ class IOSPlatform extends PlatformTarget
 			case "ipad": "2";
 			default: "1,2";
 		}
-		context.DEPLOYMENT = project.config.getString("ios.deployment", "8.0");
+		context.DEPLOYMENT = project.config.getString("ios.deployment", "9.0");
 
 		if (project.config.getString("ios.compiler") == "llvm" || project.config.getString("ios.compiler", "clang") == "clang")
 		{
 			context.OBJC_ARC = true;
 		}
 
-		// context.ENABLE_BITCODE = (project.config.getFloat ("ios.deployment", 8) >= 6);
+		// context.ENABLE_BITCODE = (project.config.getFloat ("ios.deployment", 9) >= 6);
 		context.ENABLE_BITCODE = project.config.getBool("ios.enable-bitcode", false);
 		context.IOS_COMPILER = project.config.getString("ios.compiler", "clang");
 		context.CPP_BUILD_LIBRARY = project.config.getString("cpp.buildLibrary", "hxcpp");
@@ -682,12 +682,19 @@ class IOSPlatform extends PlatformTarget
 		ProjectHelper.recursiveSmartCopyTemplate(project, "iphone/PROJ.xcodeproj", targetDirectory + "/" + project.app.file + ".xcodeproj", context, true,
 			false);
 
-		//Merge plist files
-		var plistFiles = System.readDirectory(projectDirectory).filter(function(fileName:String){
+		// Merge plist files
+		var plistFiles = System.readDirectory(projectDirectory).filter(function(fileName:String)
+		{
 			return fileName.substr(-11) == "-Info.plist" && fileName != projectDirectory + "/" + project.app.file + "-Info.plist";
 		});
-		for(plist in plistFiles){
-			System.runCommand(project.workingDirectory, "/usr/libexec/PlistBuddy", ["-x", "-c", "Merge " + plist, projectDirectory + "/" + project.app.file + "-Info.plist"]);
+		for (plist in plistFiles)
+		{
+			System.runCommand(project.workingDirectory, "/usr/libexec/PlistBuddy", [
+				"-x",
+				"-c",
+				"Merge " + plist,
+				projectDirectory + "/" + project.app.file + "-Info.plist"
+			]);
 		}
 
 		System.mkdir(projectDirectory + "/lib");

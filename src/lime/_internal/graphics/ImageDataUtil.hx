@@ -141,7 +141,7 @@ class ImageDataUtil
 
 	private static function lerpRGBA(v0:RGBA, v1:RGBA, x:Float):RGBA
 	{
-		var result:RGBA = new RGBA();
+		var result:RGBA = 0;
 		result.r = Math.floor(lerp(v0.r, v1.r, x));
 		result.g = Math.floor(lerp(v0.g, v1.g, x));
 		result.b = Math.floor(lerp(v0.b, v1.b, x));
@@ -240,9 +240,9 @@ class ImageDataUtil
 
 			var srcPosition,
 				destPosition,
+				srcPixel:RGBA = 0,
+				destPixel:RGBA = 0,
 				value = 0;
-			var srcPixel:RGBA = 0;
-			var destPixel:RGBA = 0;
 
 			for (y in 0...destView.height)
 			{
@@ -863,7 +863,10 @@ class ImageDataUtil
 			var premultiplied = image.buffer.premultiplied;
 
 			var dataView = new ImageDataView(image, rect);
-			var position, argb:ARGB, bgra:BGRA, pixel:RGBA = 0;
+			var position;
+			var argb:ARGB = 0;
+			var bgra:BGRA = 0;
+			var pixel:RGBA = 0;
 			var destPosition = 0;
 
 			for (y in 0...dataView.height)
@@ -919,7 +922,7 @@ class ImageDataUtil
 			var sourcePremultiplied = sourceImage.buffer.premultiplied;
 			var destPremultiplied = image.buffer.premultiplied;
 
-			var sourcePosition, destPosition = 0;
+			var sourcePosition, destPosition;
 			var sourcePixel:RGBA = 0;
 			var destPixel:RGBA = 0;
 
@@ -1347,11 +1350,11 @@ class ImageDataUtil
 
 			var srcPosition,
 				destPosition,
+				srcPixel:RGBA  = 0,
+				destPixel:RGBA  = 0,
 				pixelMask:UInt,
 				test:Bool,
 				value:Int;
-			var srcPixel:RGBA = 0;
-			var destPixel:RGBA = 0;
 
 			for (y in 0...destView.height)
 			{
@@ -1414,7 +1417,7 @@ class ImageDataUtil
 		{
 			var format = image.buffer.format;
 			var length = Std.int(data.length / 4);
-			var pixel:RGBA = 0;
+			var pixel:RGBA  = 0;
 
 			for (i in 0...length)
 			{
